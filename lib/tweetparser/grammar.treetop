@@ -8,7 +8,7 @@ grammar TweetContent
   end
 
   rule url
-    "http" "s"? "://" [a-zA-Z0-9\./]* {
+    "http" "s"? "://" [\./a-zA-Z0-9\?#=\-_&%]+ {
       def content
         [:url, text_value]
       end
