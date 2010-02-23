@@ -39,6 +39,11 @@ class ParserTest < Test::Unit::TestCase
     assert_parses [[:html, s]], s
   end
 
+  should "extract a slash comment" do
+    s = %{/via}
+    assert_parses [[:slash, s]], s
+  end
+
   should "extract words spaces and new lines" do
     s = "this string\nhas spaces!"
     expected = [[:text, "this"], [:space, " "], [:text, "string"], [:newline],

@@ -1,6 +1,6 @@
 grammar TweetContent
   rule tweet
-    (url / html / space / newline / atref / hashtag / text)* {
+    (url / html / space / newline / atref / hashtag / slash / text)* {
       def content
         elements.map{ |e| e.content }
       end
@@ -31,8 +31,16 @@ grammar TweetContent
     }
   end
 
+  rule slash
+    "/" [a-zA-Z0-9_]+ {
+      def content
+        [:slash, text_value]
+      end
+    }
+  end
+
   rule text
-    ([^h\s] / "h" !("ttp" "s"? "://"))+ {
+    [\S]+ {
       def content
         [:text, text_value]
       end
