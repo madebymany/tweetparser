@@ -31,7 +31,7 @@ class ParserTest < Test::Unit::TestCase
 
   should "extract at-references" do
     s = "@AtRef_3000"
-    assert_parses [[:atref, s]], s
+    assert_parses [[:username, s]], s
   end
 
   should "extract HTML" do
@@ -42,6 +42,11 @@ class ParserTest < Test::Unit::TestCase
   should "extract a slash comment" do
     s = %{/via}
     assert_parses [[:slash, s]], s
+  end
+
+  should "extract a list" do
+    s = %{@username/list}
+    assert_parses [[:list, s]], s
   end
 
   should "extract words spaces and new lines" do
@@ -65,7 +70,7 @@ class ParserTest < Test::Unit::TestCase
 
   should "extract elements from real-world sample" do
     s = %{RT @newsbrooke Tonight’s the night!: Hope you’ll all tune in tonight to watch On Expenses at 9pm on BBC4 http://bit.ly/cgbkmF #mps #uk}
-    expected = [[:text, "RT"], [:space, " "], [:atref, "@newsbrooke"], [:space, " "],
+    expected = [[:text, "RT"], [:space, " "], [:username, "@newsbrooke"], [:space, " "],
                 [:text, "Tonight’s"], [:space, " "], [:text, "the"], [:space, " "],
                 [:text, "night!:"], [:space, " "], [:text, "Hope"], [:space, " "],
                 [:text, "you’ll"], [:space, " "], [:text, "all"], [:space, " "],

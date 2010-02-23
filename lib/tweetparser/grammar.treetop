@@ -1,6 +1,6 @@
 grammar TweetContent
   rule tweet
-    (url / html / space / newline / atref / hashtag / slash / text)* {
+    (url / html / space / newline / list / username / hashtag / slash / text)* {
       def content
         elements.map{ |e| e.content }
       end
@@ -15,16 +15,28 @@ grammar TweetContent
     }
   end
 
-  rule atref
-    "@" [a-zA-Z0-9_]+ {
+  rule name
+    [a-zA-Z0-9_]+
+  end
+
+  rule username
+    "@" name {
       def content
-        [:atref, text_value]
+        [:username, text_value]
+      end
+    }
+  end
+
+  rule list
+    username "/" name {
+      def content
+        [:list, text_value]
       end
     }
   end
 
   rule hashtag
-    "#" [a-zA-Z0-9_]+ {
+    "#" name {
       def content
         [:hashtag, text_value]
       end
@@ -32,7 +44,7 @@ grammar TweetContent
   end
 
   rule slash
-    "/" [a-zA-Z0-9_]+ {
+    "/" name {
       def content
         [:slash, text_value]
       end
