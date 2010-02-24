@@ -7,32 +7,72 @@ grammar TweetContent
     }
   end
 
+  # Partial components
+
+  rule ascii_letter
+    [a-zA-Z]
+  end
+
+  rule digit
+    [0-9]
+  end
+
+  rule non_ascii
+    [^\x20-\x7F]
+  end
+
+  rule hyphen
+    "-"
+  end
+
+  rule underscore
+    "_"
+  end
+
+  rule at_sign
+    "@" / "＠"
+  end
+
+  rule hash_sign
+    "#" / "＃"
+  end
+
   rule subdomain
-    ([a-zA-Z0-9\-] / [^\x20-\x7F])+
+    (ascii_letter / digit / hyphen / non_ascii)+
   end
 
   rule tld
-    [a-zA-Z] [a-zA-Z]+
+    ascii_letter ascii_letter+
   end
 
+  rule ascii_name
+    (ascii_letter / digit / underscore)+
+  end
+
+  rule ascii_name_with_letters
+    ascii_letter (ascii_letter / digit / underscore)* / (digit / underscore)+ ascii_letter (ascii_letter / digit / underscore)*
+  end
+
+  rule protocol
+    [hH] [tT] [tT] [pP] [sS]? "://"
+  end
+
+  rule path_component
+    [a-zA-Z0-9?=\-_&%();:\.,~+/]
+  end
+
+  # Outputs
+
   rule url
-    (("http" / "HTTP") [sS]? "://" / "www." / "WWW.") (subdomain ".")+ tld (":" [0-9]+)? ("/" [a-zA-Z0-9\?#=\-_&%();:\.,~+]*)* {
+    (protocol / [Ww] [Ww] [Ww] ".") (subdomain ".")+ tld (":" [0-9]+)? ("/" path_component*)? ("#" path_component*)? {
       def content
         [:url, text_value]
       end
     }
   end
 
-  rule name
-    [a-zA-Z0-9_]+
-  end
-
-  rule name_with_letters
-    [a-zA-Z] [a-zA-Z0-9_]* / [0-9_]+ [a-zA-Z] [a-zA-Z0-9_]*
-  end
-
   rule username
-    ("@" / "＠") name !("@" / "＠" / "_") {
+    at_sign ascii_name !(at_sign / underscore) {
       def content
         [:username, text_value]
       end
@@ -40,7 +80,7 @@ grammar TweetContent
   end
 
   rule list
-    username "/" name {
+    username "/" ascii_name {
       def content
         [:list, text_value]
       end
@@ -48,7 +88,7 @@ grammar TweetContent
   end
 
   rule hashtag
-    ("#" / "＃") name_with_letters {
+    hash_sign ascii_name_with_letters {
       def content
         [:hashtag, text_value]
       end
@@ -56,7 +96,7 @@ grammar TweetContent
   end
 
   rule slash
-    "/" name {
+    "/" ascii_name {
       def content
         [:slash, text_value]
       end
