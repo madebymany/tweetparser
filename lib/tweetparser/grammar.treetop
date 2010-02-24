@@ -7,8 +7,12 @@ grammar TweetContent
     }
   end
 
+  rule subdomain
+    [a-zA-Z0-9\-]+
+  end
+
   rule url
-    "http" "s"? "://" [\./a-zA-Z0-9\?#=\-_&%]+ {
+    (("http" / "HTTP") [sS]? "://" / "www." / "WWW.") subdomain ("." subdomain)+ ("/" [\.a-zA-Z0-9\?#=\-_&%]*)* {
       def content
         [:url, text_value]
       end

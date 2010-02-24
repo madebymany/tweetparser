@@ -24,6 +24,16 @@ class ParserTest < Test::Unit::TestCase
     assert_parses [[:url, s]], s
   end
 
+  should "extract url with www and no http" do
+    s = "www.example.com/mail/?ui=2&shva=1#inbox"
+    assert_parses [[:url, s]], s
+  end
+
+  should "not extract invalid domain" do
+    s = "http://example_com/mail/?ui=2&shva=1#inbox"
+    assert_parses [[:text, s]], s
+  end
+
   should "extract hashtag" do
     s = "#HashTag2010"
     assert_parses [[:hashtag, s]], s
