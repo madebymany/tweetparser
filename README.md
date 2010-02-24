@@ -22,7 +22,29 @@ This gives:
      [:text, "a"], [:space, " "],
      [:url, "http://example.com/url"]]
 
+The full list of tweet parts recognised is as follows:
+
+* `:url` (http://example.com/ or www.example.com)
+* `:username` (@username) This was `:atref` in version 0.1.0
+* `:list` (@username/listname)
+* `:hashtag` (#hashtag)
+* `:slash` (/via)
+* `:text`
+* `:newline`
+* `:html` (pre-composed HTML)
+
 ## Dependencies
 
 * treetop
 * polyglot
+
+After checking out the code via git, you need to fetch the conformance test submodule:
+
+    git submodule init
+    git submodule update
+
+## Known bugs
+
+* The maximum length of a username or list is not checked.
+* A username etc. immediately following punctuation is not recognised.
+* Japanese text is not handled correctly.
