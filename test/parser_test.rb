@@ -29,6 +29,11 @@ class ParserTest < Test::Unit::TestCase
     assert_parses [[:url, s]], s
   end
 
+  should "extract IDN url" do
+    s = "http://✪df.ws/ejp"
+    assert_parses [[:url, s]], s
+  end
+
   should "not extract invalid domain" do
     s = "http://example_com/mail/?ui=2&shva=1#inbox"
     assert_parses [[:text, s]], s

@@ -8,7 +8,7 @@ grammar TweetContent
   end
 
   rule subdomain
-    [a-zA-Z0-9\-]+
+    ([a-zA-Z0-9\-] / [^\x20-\x7F])+
   end
 
   rule url
@@ -23,8 +23,12 @@ grammar TweetContent
     [a-zA-Z0-9_]+
   end
 
+  rule name_with_letters
+    [a-zA-Z] [a-zA-Z0-9_]* / [0-9_]+ [a-zA-Z] [a-zA-Z0-9_]*
+  end
+
   rule username
-    "@" name {
+    ("@" / "＠") name {
       def content
         [:username, text_value]
       end
@@ -40,7 +44,7 @@ grammar TweetContent
   end
 
   rule hashtag
-    "#" name {
+    ("#" / "＃") name_with_letters {
       def content
         [:hashtag, text_value]
       end
@@ -80,7 +84,7 @@ grammar TweetContent
   end
 
   rule space
-    " "+ {
+    (" " / "　")+ {
       def content
         [:space, text_value]
       end
