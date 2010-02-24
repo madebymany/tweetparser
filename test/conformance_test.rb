@@ -1,5 +1,4 @@
 # encoding: UTF-8
-$KCODE = "u"
 $:.unshift(File.expand_path("../../lib", __FILE__))
 require "test/unit"
 require "shoulda"
@@ -11,10 +10,9 @@ class AutolinkConformanceTest < Test::Unit::TestCase
   DATA_PATH = File.expand_path("../twitter-text-conformance/autolink.yml", __FILE__)
 
   def assert_autolink(expected, input)
-    @parser = TweetContentParser.new
-    parsed = @parser.parse(input)
-    assert parsed, "Failed to parse #{input}"
-    actual = parsed.content.inject(""){ |output, (type, value)|
+    sexpr = TweetParser.parse(input)
+    assert sexpr, "Failed to parse #{input}"
+    actual = sexpr.inject(""){ |output, (type, value)|
       output <<
         case type
         when :username
@@ -37,7 +35,7 @@ class AutolinkConformanceTest < Test::Unit::TestCase
           value
         end
     }
-    assert_equal expected, actual, parsed.content.inspect
+    assert_equal expected, actual, sexpr.inspect
   end
 
   YAML.load(File.read(DATA_PATH))["tests"].each do |section, tests|

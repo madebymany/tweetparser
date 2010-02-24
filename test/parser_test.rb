@@ -6,12 +6,8 @@ require "tweetparser"
 
 class ParserTest < Test::Unit::TestCase
 
-  def setup
-    @parser = TweetContentParser.new
-  end
-
   def assert_parses(expected, input)
-    actual = @parser.parse(input).content
+    actual = TweetParser.parse(input)
     assert_equal expected, actual
   end
 

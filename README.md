@@ -5,9 +5,8 @@ Extract content from tweets in the form of an s-expression.
 ## Usage
 
     require "tweetparser"
-    parser = TweetContentParser.new
     tweet = "Hey @threedaymonk, here is a tweet with #hashtags and a http://example.com/url"
-    parser.parse(tweet).content
+    TweetParser.parse(tweet)
 
 This gives:
 
