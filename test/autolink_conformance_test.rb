@@ -4,7 +4,6 @@ require "test/unit"
 require "shoulda"
 require "tweetparser"
 require "yaml"
-require "cgi"
 
 class AutolinkConformanceTest < Test::Unit::TestCase
   DATA_PATH = File.expand_path("../twitter-text-conformance/autolink.yml", __FILE__)

@@ -48,3 +48,4 @@ After checking out the code via git, you need to fetch the conformance test subm
 * The maximum length of a username or list is not checked.
 * A username etc. immediately following punctuation is not recognised.
 * Japanese text is not handled correctly.
+* Hashtags containing accents are not supported.

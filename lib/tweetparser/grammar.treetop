@@ -11,8 +11,12 @@ grammar TweetContent
     ([a-zA-Z0-9\-] / [^\x20-\x7F])+
   end
 
+  rule tld
+    [a-zA-Z] [a-zA-Z]+
+  end
+
   rule url
-    (("http" / "HTTP") [sS]? "://" / "www." / "WWW.") subdomain ("." subdomain)+ ("/" [\.a-zA-Z0-9\?#=\-_&%]*)* {
+    (("http" / "HTTP") [sS]? "://" / "www." / "WWW.") (subdomain ".")+ tld (":" [0-9]+)? ("/" [a-zA-Z0-9\?#=\-_&%();:\.,~+]*)* {
       def content
         [:url, text_value]
       end
@@ -28,7 +32,7 @@ grammar TweetContent
   end
 
   rule username
-    ("@" / "＠") name {
+    ("@" / "＠") name !("@" / "＠" / "_") {
       def content
         [:username, text_value]
       end
