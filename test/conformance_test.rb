@@ -29,8 +29,6 @@ class AutolinkConformanceTest < Test::Unit::TestCase
           href = value
           href = "http://" + value unless href =~ /^http/i
           %{<a href="#{href}">#{value}</a>}
-        when :newline
-          "\n"
         else
           value
         end

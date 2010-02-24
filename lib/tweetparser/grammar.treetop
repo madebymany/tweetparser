@@ -78,7 +78,7 @@ grammar TweetContent
   rule newline
     "\r"? "\n" {
       def content
-        [:newline]
+        [:newline, text_value]
       end
     }
   end

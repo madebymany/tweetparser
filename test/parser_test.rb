@@ -62,7 +62,7 @@ class ParserTest < Test::Unit::TestCase
 
   should "extract words spaces and new lines" do
     s = "this string\nhas spaces!"
-    expected = [[:text, "this"], [:space, " "], [:text, "string"], [:newline],
+    expected = [[:text, "this"], [:space, " "], [:text, "string"], [:newline, "\n"],
                 [:text, "has"], [:space, " "], [:text, "spaces!"]]
     assert_parses expected, s
   end
@@ -72,7 +72,7 @@ class ParserTest < Test::Unit::TestCase
     expected = [[:text, "Another"], [:space, " "], [:text, "test:"], [:space, "  "],
                 [:html, "<a href=\"http://twitpic.com/14vzny\" target=\"_blank\">"],
                 [:html, "<img src=\"http://twitpic.com/show/mini/14vzny\" />"],
-                [:html, "</a>"], [:newline],
+                [:html, "</a>"], [:newline, "\n"],
                 [:url, "http://twitpic.com/14vzny"],
                 [:space, " "], [:text, "3"], [:space, " "],
                 [:url, "http://twitpic.com/14vzny"]]
