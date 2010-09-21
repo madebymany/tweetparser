@@ -15,7 +15,7 @@ spec = Gem::Specification.new do |s|
 
   # Change these as appropriate
   s.name              = "tweetparser"
-  s.version           = "0.2.1"
+  s.version           = "0.2.2"
   s.summary           = "Extract content from tweets"
   s.author            = "Paul Battley"
   s.email             = "pbattley@gmail.com"
