@@ -27,8 +27,7 @@ spec = Gem::Specification.new do |s|
 
   s.require_paths     = ["lib"]
 
-  s.add_dependency("treetop", "~> 1.4.2")
-  s.add_dependency("polyglot", "~> 0.2.9")
+  s.add_dependency("treetop",  ">= 1.4.2")
 
   s.add_development_dependency("shoulda")
 end
